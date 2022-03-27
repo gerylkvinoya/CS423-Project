@@ -1,0 +1,17 @@
+instrument=MC-111715
+position=MC-111715_0
+flow_cell_id=FAQ33068
+sample_id=no_sample
+protocol_group_id=Californication
+protocol=sequencing/sequencing_MIN111_DNA:FLO-MIN111:SQK-LSK109
+protocol_run_id=c1667b8c-c952-41c2-897d-a513c48baea5
+acquisition_run_id=c7826bebcc53f040d6330e68ba61333240ea7d05
+started=2022-01-14T19:14:27.834846-08:00
+acquisition_stopped=2022-01-17T19:14:33.278286-08:00
+processing_stopped=2022-01-17T19:16:03.202791-08:00
+basecalling_enabled=1
+sequencing_summary_file=sequencing_summary_FAQ33068_c7826beb.txt
+fast5_files_in_final_dest=887
+fast5_files_in_fallback=0
+fastq_files_in_final_dest=887
+fastq_files_in_fallback=0
