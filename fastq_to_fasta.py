@@ -10,7 +10,7 @@ import os
 sequenceList = []
 
 ########################################################
-# read_fasta_q_file -- print as Fasta format
+# read_fasta_q_file -- parse fastq file using pysam.FastxFile
 #
 #   fasta_q_file - name of fastq file to read
 #
@@ -20,13 +20,6 @@ sequenceList = []
 #       https://onestopdataanalysis.com/fastq-to-fasta/ 
 #######################################################
 def read_fasta_q_file(fasta_q_file):
-    """Parse FASTA/Q file using `pysam.FastxFile`.
- 
-    Args:
- 
-        fasta_q_file (str): Path to FASTA/Q file.
- 
-    """
     with FastxFile(fasta_q_file) as fh:
         for entry in fh:
             sequence_id = entry.name
@@ -43,10 +36,24 @@ def read_fasta_q_file(fasta_q_file):
 #######################################################
 def writeFasta(filename, sequenceList):
     f = open(filename, "w")
+
+    # the commented code creates a multi-fasta file
+    # for s in sequenceList:
+    #     f.write("> " + str(s[0]) + "\n")
+    #     f.write(textwrap.fill(s[1], width=60))
+    #     f.write("\n\n")
+
+    combinedSequence = ""
+
+    f.write("> combined sequence\n")
     for s in sequenceList:
-        f.write("> " + str(s[0]) + "\n")
-        f.write(textwrap.fill(s[1], width=60))
-        f.write("\n\n")
+        combinedSequence += s[1]
+
+    combinedSequence = trimSequence(combinedSequence)
+    
+    f.write(textwrap.fill(combinedSequence, width=60))
+
+
     f.close()
 
 ########################################################
@@ -70,8 +77,25 @@ def searchDir(dirname):
             if f.endswith('.fastq'):
                 sequenceList.append(read_fasta_q_file(f))
 
+########################################################
+# trimSequence -- trim the sequence based on the following primers
+#                   sequences may have one or more of these:
+#                   GCGGTAATTCCAGCTCCAATAG 
+#                   CTCTGACAATGGAATACGAATA
+#                   AAGGAGAAATHAATGTCT 
+#                   AARCAACCTTGTGTAAGTCTC 
+#
+#   sequence - sequence to trim
+#
+#   return: trimmed sequence
+#######################################################
+def trimSequence(sequence):
+    seq = ""
+    return sequence #does nothing for now
 
+# TODO:
+# right now, search for all fastq files
+# need to change to search for just the fastq
+# files under the same barcode
 searchDir('sequences')
 writeFasta("out.fasta", sequenceList)
-
-

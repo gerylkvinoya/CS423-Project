@@ -1,0 +1,13 @@
+1. take all files in the same barcode folder (only the "pass" files)
+
+2. combine the fastq sequences
+
+3. trim the combined sequence with the following primers
+    GCGGTAATTCCAGCTCCAATAG 
+    CTCTGACAATGGAATACGAATA
+    AAGGAGAAATHAATGTCT 
+    AARCAACCTTGTGTAAGTCTC 
+
+4. output the sequence to a fasta formatted file
+
+5. run the file through the SILVA database
