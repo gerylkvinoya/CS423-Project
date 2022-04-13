@@ -89,13 +89,47 @@ def searchDir(dirname):
 #
 #   return: trimmed sequence
 #######################################################
-def trimSequence(sequence):
-    seq = ""
-    return sequence #does nothing for now
+def trimSequence(sequence, index, end):
+    #BASE CASE: if we have reached the end of the sequence, return the sequence
+    if index == end:
+        return sequence
+
+    newSeq = sequence
+
+    #check for the two sequences that have length 22
+    if len(sequence[index:len(sequence)]) >= 22:
+        #check for sequence GCGGTAATTCCAGCTCCAATAG
+        if sequence[index:index + 22] == "GCGGTAATTCCAGCTCCAATAG":
+            newSeq = sequence[0:index] + sequence [index + 22:end]
+            return trimSequence(newSeq, index, end)
+
+        #check for sequence CTCTGACAATGGAATACGAATA
+        if sequence[index:index + 22] == "CTCTGACAATGGAATACGAATA":
+            newSeq = sequence[0:index] + sequence [index + 22:end]
+            return trimSequence(newSeq, index, end) 
+
+    #check for one sequence that has length 18 AAGGAGAAATHAATGTCT
+    if len(sequence[index:len(sequence)]) >= 18:
+        if sequence[index:index + 18] == "AAGGAGAAATHAATGTCT":
+            newSeq = sequence[0:index] + sequence [index + 18:end]
+            return trimSequence(newSeq, index, end)
+    
+    #check for one sequence that has length 21 AARCAACCTTGTGTAAGTCTC
+    if len(sequence[index:len(sequence)]) >= 21:
+        if sequence[index:index + 21] == "AARCAACCTTGTGTAAGTCTC":
+            newSeq = sequence[0:index] + sequence [index + 21:end]
+            return trimSequence(newSeq, index, end)
+    
+    index += 1
+    return trimSequence(newSeq, index, end)
 
 # TODO:
 # right now, search for all fastq files
 # need to change to search for just the fastq
 # files under the same barcode
-searchDir('sequences')
-writeFasta("out.fasta", sequenceList)
+#searchDir('sequences')
+#writeFasta("out.fasta", sequenceList)
+
+s = "QAARCAACCTTGTGTAAGTCTCAAGGAGAAATHAATGTCTQAAGGAGAAATHAATGTCTQCTCTGACAATGGAATACGAATACTCTGACAATGGAATACGAATAQGCGGTAATTCCAGCTCCAATAGQGCGGTAATTCCAGCTCCAATAGQGCGGTAATTCCAGCTCCAATAGAARCAACCTTGTGTAAGTCTCAAGGAGAAATHAATGTCT"
+
+print(trimSequence(s, 0, len(s)))
