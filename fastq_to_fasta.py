@@ -47,10 +47,8 @@ def writeFasta(filename, sequenceList):
 
     f.write("> combined sequence\n")
     for s in sequenceList:
-        combinedSequence += s[1]
+        combinedSequence += trimSequence(s[1], 0, len(s))
 
-    combinedSequence = trimSequence(combinedSequence)
-    
     f.write(textwrap.fill(combinedSequence, width=60))
 
 
@@ -78,7 +76,8 @@ def searchDir(dirname):
                 sequenceList.append(read_fasta_q_file(f))
 
 ########################################################
-# trimSequence -- trim the sequence based on the following primers
+# trimSequence -- RECURISVE
+#                   trim the sequence based on the following primers
 #                   sequences may have one or more of these:
 #                   GCGGTAATTCCAGCTCCAATAG 
 #                   CTCTGACAATGGAATACGAATA
@@ -123,13 +122,9 @@ def trimSequence(sequence, index, end):
     index += 1
     return trimSequence(newSeq, index, end)
 
-# TODO:
-# right now, search for all fastq files
-# need to change to search for just the fastq
-# files under the same barcode
-#searchDir('sequences')
-#writeFasta("out.fasta", sequenceList)
+searchDir('sequences')
+writeFasta("out.fasta", sequenceList)
 
-s = "QAARCAACCTTGTGTAAGTCTCAAGGAGAAATHAATGTCTQAAGGAGAAATHAATGTCTQCTCTGACAATGGAATACGAATACTCTGACAATGGAATACGAATAQGCGGTAATTCCAGCTCCAATAGQGCGGTAATTCCAGCTCCAATAGQGCGGTAATTCCAGCTCCAATAGAARCAACCTTGTGTAAGTCTCAAGGAGAAATHAATGTCT"
+#s = "QAARCAACCTTGTGTAAGTCTCAAGGAGAAATHAATGTCTQAAGGAGAAATHAATGTCTQCTCTGACAATGGAATACGAATACTCTGACAATGGAATACGAATAQGCGGTAATTCCAGCTCCAATAGQGCGGTAATTCCAGCTCCAATAGQGCGGTAATTCCAGCTCCAATAGAARCAACCTTGTGTAAGTCTCAAGGAGAAATHAATGTCT"
 
-print(trimSequence(s, 0, len(s)))
+#print(trimSequence(s, 0, len(s)))
